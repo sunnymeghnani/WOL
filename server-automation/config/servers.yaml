@@ -1,0 +1,51 @@
+# Server inventory — add/remove servers here, scripts pick them up automatically.
+# Each server needs: name, ip, mac, subnet_broadcast, ssh_user, ssh_port, groups.
+#
+# subnet_broadcast: the directed-broadcast address for the server's subnet.
+#   192.168.1.x subnet  → 192.168.1.255
+#   192.168.2.x subnet  → 192.168.2.255
+#   10.10.5.x   subnet  → 10.10.5.255
+
+servers:
+  - name: server-web-01
+    ip: 192.168.1.120
+    mac: "AA:BB:CC:DD:EE:01"       # replace with real MAC (ip neigh / arp -n)
+    subnet_broadcast: "192.168.1.255"
+    ssh_user: devops
+    ssh_port: 22
+    groups:
+      - web
+      - production
+
+  - name: server-db-01
+    ip: 192.168.2.120
+    mac: "AA:BB:CC:DD:EE:02"
+    subnet_broadcast: "192.168.2.255"
+    ssh_user: devops
+    ssh_port: 22
+    groups:
+      - database
+      - production
+
+  - name: server-app-01
+    ip: 192.168.1.150
+    mac: "AA:BB:CC:DD:EE:03"
+    subnet_broadcast: "192.168.1.255"
+    ssh_user: devops
+    ssh_port: 22
+    groups:
+      - app
+      - production
+
+settings:
+  # CIDR ranges that count as "office network".
+  # Script refuses to run if your current IP is not inside any of these.
+  office_networks:
+    - "192.168.0.0/16"
+    - "10.0.0.0/8"
+
+  ssh_key_path: "~/.ssh/server_automation_key"
+  wol_port: 9            # standard WOL port; some switches use 7
+  ssh_connect_timeout: 10
+  shutdown_grace_seconds: 30  # time given to servers after shutdown command
+  log_dir: "./logs"

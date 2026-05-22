@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x /home/sunny/external/projects/scripts/server-automation/scripts/wake_servers.sh /home/sunny/external/projects/scripts/server-automation/scripts/shutdown_servers.sh /home/sunny/external/projects/scripts/server-automation/keys/setup_ssh_key.sh)"
+    ]
+  }
+}
