@@ -1,7 +1,16 @@
 {
   "permissions": {
     "allow": [
-      "Bash(chmod +x /home/sunny/external/projects/scripts/server-automation/scripts/wake_servers.sh /home/sunny/external/projects/scripts/server-automation/scripts/shutdown_servers.sh /home/sunny/external/projects/scripts/server-automation/keys/setup_ssh_key.sh)"
+      "Bash(chmod +x /home/sunny/external/projects/scripts/server-automation/scripts/wake_servers.sh /home/sunny/external/projects/scripts/server-automation/scripts/shutdown_servers.sh /home/sunny/external/projects/scripts/server-automation/keys/setup_ssh_key.sh)",
+      "Bash(dir /s /b)",
+      "Bash(ls ~/.ssh/ 2>/dev/null || echo \"No .ssh dir found\")",
+      "Read(//c/Users/sunny.SUNNY/.ssh/**)",
+      "Bash(bash server-automation/keys/setup_ssh_key.sh)",
+      "Bash(python server-automation/python/shutdown_servers.py --name server-dual-xeon-01 --dry-run)",
+      "Bash(python -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(python3 -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(python3 -c ' *)",
+      "Bash(bash -c *)"
     ]
   }
 }

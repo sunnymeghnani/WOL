@@ -1,0 +1,2 @@
+2026-05-22 14:44:40,885 [INFO] Logging to: D:\projects\WOL\server-automation\logs\shutdown_20260522_144440.log
+2026-05-22 14:44:40,915 [INFO] [DRY-RUN] Would SSH sunny@192.168.2.76:22 and run: sync && sudo shutdown -h now

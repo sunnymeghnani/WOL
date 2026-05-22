@@ -38,7 +38,7 @@ require_cmd() {
 # Returns newline-separated "field=value" pairs for all servers.
 # Usage: parse_servers | while IFS= read -r line; do ...
 parse_servers() {
-    python3 - "$CONFIG_FILE" <<'PYEOF'
+    python3 - "$CONFIG_FILE" <<'PYEOF' | tr -d '\r'
 import sys, yaml, json
 with open(sys.argv[1]) as f:
     data = yaml.safe_load(f)
@@ -50,7 +50,7 @@ PYEOF
 
 get_setting() {
     local key="$1"
-    python3 - "$CONFIG_FILE" "$key" <<'PYEOF'
+    python3 - "$CONFIG_FILE" "$key" <<'PYEOF' | tr -d '\r'
 import sys, yaml
 with open(sys.argv[1]) as f:
     data = yaml.safe_load(f)
@@ -64,7 +64,14 @@ PYEOF
 
 # ── network / office-network guard ───────────────────────────────────────────
 get_local_ips() {
-    hostname -I 2>/dev/null || ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+    # Try hostname -I (Linux), then `ip addr` (Linux), then Python (cross-platform fallback).
+    if hostname -I 2>/dev/null | grep -q .; then
+        hostname -I 2>/dev/null
+    elif command -v ip &>/dev/null; then
+        ip -4 addr show | grep -oP '(?<=inet\s)\d+(\.\d+){3}'
+    else
+        python3 -c "import socket; print(socket.gethostbyname(socket.gethostname()))"
+    fi
 }
 
 ip_in_cidr() {
@@ -82,7 +89,7 @@ except Exception:
 assert_office_network() {
     info "Verifying office network connectivity…"
     local office_nets
-    office_nets=$(python3 - "$CONFIG_FILE" <<'PYEOF'
+    office_nets=$(python3 - "$CONFIG_FILE" <<'PYEOF' | tr -d '\r'
 import sys, yaml
 with open(sys.argv[1]) as f:
     data = yaml.safe_load(f)

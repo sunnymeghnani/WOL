@@ -19,6 +19,10 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 import paramiko  # pip install paramiko
 import yaml      # pip install pyyaml
 
@@ -81,7 +85,7 @@ def assert_office_network(office_cidrs: list[str]) -> None:
         for cidr in office_cidrs:
             try:
                 if ipaddress.ip_address(ip) in ipaddress.ip_network(cidr, strict=False):
-                    ok(f"Office network confirmed: {ip} ∈ {cidr}")
+                    ok(f"Office network confirmed: {ip} in {cidr}")
                     return
             except ValueError:
                 continue
@@ -111,7 +115,7 @@ def shutdown_one(srv: dict, key_path: str, timeout: int,
         return name, True, "dry-run"
 
     try:
-        key = paramiko.RSAKey.from_private_key_file(str(Path(key_path).expanduser()))
+        key = paramiko.Ed25519Key.from_private_key_file(str(Path(key_path).expanduser()))
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         client.connect(ip, port=port, username=user, pkey=key,

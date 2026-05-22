@@ -1,0 +1,4 @@
+2026-05-22 14:46:01,051 [INFO] Logging to: D:\projects\WOL\server-automation\logs\shutdown_20260522_144601.log
+2026-05-22 14:46:01,111 [INFO] Connected (version 2.0, client OpenSSH_9.6p1)
+2026-05-22 14:46:01,198 [INFO] Authentication (publickey) successful!
+2026-05-22 14:46:01,942 [INFO] server-dual-xeon-01 (192.168.2.76): shutdown command delivered. stdout='' stderr=''

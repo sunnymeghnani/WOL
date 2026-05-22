@@ -16,6 +16,10 @@ import sys
 import time
 from pathlib import Path
 
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 import yaml  # pip install pyyaml
 
 try:
@@ -66,7 +70,7 @@ def assert_office_network(office_cidrs: list[str]) -> None:
         for cidr in office_cidrs:
             try:
                 if ipaddress.ip_address(ip) in ipaddress.ip_network(cidr, strict=False):
-                    ok(f"Office network confirmed: {ip} ∈ {cidr}")
+                    ok(f"Office network confirmed: {ip} in {cidr}")
                     return
             except ValueError:
                 continue
@@ -95,7 +99,7 @@ def wait_for_ssh(ip: str, user: str, port: int, key_path: str,
     if not HAS_PARAMIKO:
         warn("paramiko not installed; skipping SSH wait (pip install paramiko)")
         return False
-    key = paramiko.RSAKey.from_private_key_file(str(Path(key_path).expanduser()))
+    key = paramiko.Ed25519Key.from_private_key_file(str(Path(key_path).expanduser()))
     elapsed = 0
     while elapsed < max_wait:
         try:

@@ -17,14 +17,14 @@ servers:
       - web
       - production
 
-  - name: server-db-01
-    ip: 192.168.2.120
-    mac: "AA:BB:CC:DD:EE:02"
+  - name: server-dual-xeon-01
+    ip: 192.168.2.76
+    mac: "00:1F:BC:0E:21:B4"
     subnet_broadcast: "192.168.2.255"
-    ssh_user: devops
+    ssh_user: sunny
     ssh_port: 22
     groups:
-      - database
+      - test
       - production
 
   - name: server-app-01
