@@ -1,0 +1,14 @@
+# Don't ship these into the image — they're either generated, secret, or unused
+venv/
+.venv/
+**/venv/
+**/__pycache__/
+**/*.pyc
+logs/*.log
+.git/
+.gitignore
+README.md
+keys/
+scripts/         # bash scripts are host-only
+*.md
+.DS_Store

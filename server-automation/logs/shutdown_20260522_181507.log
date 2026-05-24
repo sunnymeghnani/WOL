@@ -1,3 +1,0 @@
-[0;36m[INFO][0m  Logging to: /d/projects/WOL/server-automation/logs/shutdown_20260522_181507.log
-[0;36m[INFO][0m  Verifying office network connectivity…
-[0;31m[ERROR][0m Not on office network. Current IPs: 192.168.2.68. Scripts must run from office network only.

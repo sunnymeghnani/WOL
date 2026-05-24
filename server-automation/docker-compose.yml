@@ -1,0 +1,38 @@
+services:
+  webui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: server-automation-webui
+
+    # host networking is required so that:
+    #   1. WOL UDP broadcasts (192.168.x.255) actually reach the LAN
+    #   2. The office-network IP check sees the real host IP
+    #   3. ping reaches servers on the office subnets
+    # NOTE: host mode works fully on Linux. On Docker Desktop (Win/macOS)
+    #       it is partially emulated — see README for the WSL2 setup.
+    network_mode: host
+
+    volumes:
+      # Server inventory — mounted read-only.
+      # Edits on the HOST reflect inside the container immediately because
+      # app.py re-reads the YAML on every request. No restart needed.
+      - ./config:/app/config:ro
+
+      # Logs persist on the host so you can grep them after a `compose down`
+      - ./logs:/app/logs
+
+      # SSH key for shutdown commands — mounted read-only.
+      # On Windows, replace ${HOME} with C:\Users\YourName or use an env var.
+      - ${HOME}/.ssh/server_automation_key:/root/.ssh/server_automation_key:ro
+
+    # Restart on crash, and on host reboot if Docker is set to start at boot
+    restart: unless-stopped
+
+    # Healthcheck so `docker ps` shows a useful status
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/api/activity')\""]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s

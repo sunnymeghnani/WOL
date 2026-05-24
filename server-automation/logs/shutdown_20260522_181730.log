@@ -1,9 +1,0 @@
-[0;36m[INFO][0m  Logging to: /d/projects/WOL/server-automation/logs/shutdown_20260522_181730.log
-[0;36m[INFO][0m  Verifying office network connectivity…
-[0;32m[OK][0m    Office network confirmed: 192.168.2.68 is inside 192.168.0.0/16
-
-[1m[0;31m=== SHUTDOWN CONFIRMATION ===[0m
-The following servers will be shut down:
-  • server-dual-xeon-01  (192.168.2.76)
-
-[1;33m[WARN][0m  DRY-RUN mode — no shutdown commands will be sent.

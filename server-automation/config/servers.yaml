@@ -48,4 +48,3 @@ settings:
   wol_port: 9            # standard WOL port; some switches use 7
   ssh_connect_timeout: 10
   shutdown_grace_seconds: 30  # time given to servers after shutdown command
-  log_dir: "./logs"
