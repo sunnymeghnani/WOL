@@ -17,14 +17,69 @@ so anything you change in the YAML file shows up here automatically.
 
 ## Run
 
+### Docker (recommended)
+
+From the `server-automation/` root (one level up from this README):
+
+```bash
+docker compose up -d        # build + start in background
+docker compose logs -f      # tail logs
+docker compose down         # stop & remove
+```
+
+Open <http://localhost:5000>.
+
+**Adding/changing servers without restarting**: edit `config/servers.yaml`
+on your host machine and the UI picks it up on the next page refresh — no
+`docker compose down/up` needed. The config is bind-mounted into the container
+and the app re-reads it on every request.
+
+Only rebuild the image (`docker compose up -d --build`) when you change
+Python code or `requirements.txt`.
+
+### Linux / macOS
+
 ```bash
 cd webui/
+
+# One-time setup
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
+
+# Every time you want to run it
+source venv/bin/activate
 python3 app.py
 ```
 
-Then open <http://localhost:5000> — or share `http://YOUR-LAPTOP-IP:5000`
+If `python3 -m venv` fails on Ubuntu, install: `sudo apt install python3-venv python3-full`.
+
+### Windows (PowerShell)
+
+```powershell
+cd webui
+
+# One-time setup
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+
+# Every time you want to run it
+.\venv\Scripts\Activate.ps1
+python app.py
+```
+
+If PowerShell blocks the activation script, run once as Administrator:
+`Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`.
+
+For Windows CMD instead of PowerShell, use `venv\Scripts\activate.bat`.
+
+### Access the dashboard
+
+Open <http://localhost:5000> — or share `http://YOUR-LAPTOP-IP:5000`
 with teammates on the office LAN (the server binds to `0.0.0.0`).
+
+To stop: `Ctrl+C` in the terminal. To leave the venv: `deactivate`.
 
 ## Files
 
