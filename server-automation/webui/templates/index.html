@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Server Control Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header>
+  <h1>⚡ Server Control Panel</h1>
+  <div id="network-status" class="network-pill checking">Checking network…</div>
+</header>
+
+<main>
+  <section class="controls">
+    <div class="filter-row">
+      <label>Group filter:
+        <select id="group-filter">
+          <option value="">— all servers —</option>
+        </select>
+      </label>
+      <button id="select-all" class="btn-secondary">Select All</button>
+      <button id="select-none" class="btn-secondary">Clear</button>
+      <button id="refresh" class="btn-secondary">↻ Refresh</button>
+    </div>
+
+    <div class="action-row">
+      <button id="wake-btn" class="btn-wake">🌅 Wake Selected</button>
+      <button id="shutdown-btn" class="btn-shutdown">⏻ Shutdown Selected</button>
+    </div>
+  </section>
+
+  <section class="server-table">
+    <table>
+      <thead>
+        <tr>
+          <th><input type="checkbox" id="header-check"></th>
+          <th>Status</th>
+          <th>Name</th>
+          <th>IP Address</th>
+          <th>MAC</th>
+          <th>Groups</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="server-rows">
+        <tr><td colspan="7" class="loading">Loading servers…</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="activity">
+    <h2>📋 Activity Log</h2>
+    <div id="activity-log" class="log-pane">
+      <div class="log-empty">No activity yet.</div>
+    </div>
+  </section>
+</main>
+
+<!-- Confirmation modal -->
+<div id="modal-backdrop" class="modal-backdrop hidden">
+  <div class="modal">
+    <h2>⚠️ Confirm Shutdown</h2>
+    <p>You are about to shut down the following servers:</p>
+    <ul id="modal-server-list"></ul>
+    <p>Type <code>yes</code> to confirm:</p>
+    <input type="text" id="modal-confirm-input" placeholder="yes">
+    <div class="modal-buttons">
+      <button id="modal-cancel" class="btn-secondary">Cancel</button>
+      <button id="modal-confirm" class="btn-shutdown">Shutdown</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast notifications -->
+<div id="toast-container"></div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
