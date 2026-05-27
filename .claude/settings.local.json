@@ -10,7 +10,8 @@
       "Bash(python -c \"import sys; print\\(sys.executable\\)\")",
       "Bash(python3 -c \"import sys; print\\(sys.executable\\)\")",
       "Bash(python3 -c ' *)",
-      "Bash(bash -c *)"
+      "Bash(bash -c *)",
+      "Bash(pip install *)"
     ]
   }
 }

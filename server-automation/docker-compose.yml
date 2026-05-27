@@ -5,13 +5,13 @@ services:
       dockerfile: Dockerfile
     container_name: server-automation-webui
 
-    # host networking is required so that:
-    #   1. WOL UDP broadcasts (192.168.x.255) actually reach the LAN
-    #   2. The office-network IP check sees the real host IP
-    #   3. ping reaches servers on the office subnets
-    # NOTE: host mode works fully on Linux. On Docker Desktop (Win/macOS)
-    #       it is partially emulated — see README for the WSL2 setup.
-    network_mode: host
+    # Port mapping — works on Docker Desktop (Windows/macOS).
+    # TRADE-OFF: WOL UDP broadcasts from inside the container will NOT reach
+    # the LAN's 192.168.x.255 broadcast domain. For WOL, run the Python
+    # script directly on the host instead, or switch to network_mode: host
+    # when deploying on a Linux host.
+    ports:
+      - "5000:5000"
 
     volumes:
       # Server inventory — mounted read-only.

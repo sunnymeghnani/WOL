@@ -87,10 +87,16 @@ def in_office_network(cidrs: list[str]) -> tuple[bool, str]:
 
 
 # ── server status via ping ───────────────────────────────────────────────────
+_IS_WINDOWS = sys.platform.startswith("win")
+
 def ping(ip: str, timeout: int = 1) -> bool:
+    if _IS_WINDOWS:
+        cmd = ["ping", "-n", "1", "-w", str(timeout * 1000), ip]
+    else:
+        cmd = ["ping", "-c", "1", "-W", str(timeout), ip]
     try:
         r = subprocess.run(
-            ["ping", "-c", "1", "-W", str(timeout), ip],
+            cmd,
             stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
             timeout=timeout + 2,
         )
